@@ -67,8 +67,8 @@ export class Boards extends Component {
   };
   
   loadNewData = () => {
-    const { current_boardFarm } = this.props.boardFarms;
-    this.props.getBoards(current_boardFarm.farm_id);
+    const { current_boardFarm } = this.props.boardFarms
+    this.props.getBoards(current_boardFarm.farm_id)
     this.getLogs()
   }
 

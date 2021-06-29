@@ -31,7 +31,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
         # command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
         # return_code = os.system(command_ssh.format(**data))
         
-        command_no_ssh_linux = 'echo { //""database"//": //""db_featweb"//", //""host"//": //""' + local_ip + '"//", //""port"//": //""3306"//", //""username"//": //""root"//",//""password"//": //""1234"//"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
+        command_no_ssh_linux = 'echo { //""database"//": //""db_featweb"//", //""host"//": //""' + local_ip + '"//", //""port"//": //""3306"//", //""username"//": //""root"//",//""password"//": //""1234"//"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
         # command_no_ssh = 'echo { "database": "db_featweb", "host": "' + local_ip + '", "port": "3306", "username": "root","password": "1234"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
  
         return_code = os.system(command_no_ssh_linux)

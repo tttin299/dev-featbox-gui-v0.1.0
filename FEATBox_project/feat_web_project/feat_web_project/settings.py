@@ -102,7 +102,7 @@ DATABASES = {
         'NAME': 'db_featweb',
         'USER': 'root',
         'PASSWORD': '1234',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '3306',
         'OPTIONS': {
           'autocommit': True,

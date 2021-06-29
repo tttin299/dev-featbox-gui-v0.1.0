@@ -8,4 +8,6 @@ COPY . /app
 RUN npm install
 
 CMD npm run dev
+CMD python feat_web_project/manage.py makemigrations
+CMD python feat_web_project/manage.py migrate
 CMD python feat_web_project/manage.py runserver 0.0.0.0:8000

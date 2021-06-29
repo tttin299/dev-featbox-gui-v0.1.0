@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  localhost:
+  db:
     image: mysql:5.7.22
     restart: always
     ports:
-      - '33066:3306'
+      - '3306:3306'
     environment:
        MYSQL_DATABASE: 'db_featweb'
        MYSQL_USER: 'root'
@@ -13,7 +13,7 @@ services:
        MYSQL_ROOT_PASSWORD: '1234'
     volumes:
       - .dbdata:/var/lib/mysql
-  backend:
+  web:
     build:
         context: .
         dockerfile: Dockerfile

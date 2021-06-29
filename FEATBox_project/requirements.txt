@@ -1,0 +1,9 @@
+django==3.1.7
+djangorestframework==3.12.4
+django-rest-knox==4.1.0
+mysql-connector-python==8.0.25
+mysqlclient==2.0.3
+django-mysql==2.2.0
+pyusb==1.1.1
+django-sslserver==0.22
+django-extensions==3.1.2

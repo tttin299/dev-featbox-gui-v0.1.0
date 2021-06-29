@@ -1,0 +1,24 @@
+export const GET_BOARDFARMS = 'GET_BOARDFARMS';
+export const REMOVE_BOARDFARM = 'REMOVE_BOARDFARM';
+export const ADD_BOARDFARM = 'ADD_BOARDFARM';
+export const EDIT_BOARDFARM = 'EDIT_BOARDFARM';
+export const CLICK_BOARDFARM = 'CLICK_BOARDFARM';
+export const GET_ERRORS = 'GET_ERRORS';
+export const CREATE_MESSAGE = 'CREATE_MESSAGE';
+export const USER_LOADING = "USER_LOADING"
+export const USER_LOADED = "USER_LOADED"
+export const AUTH_ERROR = "AUTH_ERROR"
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+export const LOGIN_FAIL = "LOGIN_FAIL"
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+
+export const GET_BOARDS = 'GET_BOARDS';
+export const CONTROL_BOARD = 'CONTROL_BOARD';
+// export const POWER_BOARD = 'REMOVE_BOARD';
+// export const SWITCH_BOARD= 'ADD_BOARD';
+// export const MODE_BOARD = 'EDIT_BOARD';
+export const GET_BOARD_LOGS = 'GET_BOARD_LOGS';
+export const ADD_BOARD_LOG = 'ADD_BOARD_LOG';
+export const SHOW_BOARD_LOG = 'SHOW_BOARD_LOG';

@@ -23,7 +23,8 @@ python manage.py migrate
 
 python createsuperuser
 
-# Frontend command (if you want build interface)
+# Frontend command (if you rebuild interface)
+
 npm install 
 
 npm run dev

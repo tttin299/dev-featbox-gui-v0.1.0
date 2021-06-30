@@ -18,7 +18,7 @@ services:
         context: .
         dockerfile: Dockerfile
     volumes:
-      - data-volume:var/lib/app
+      - data-volume:/var/lib/app
     ports:
       - "8000:8000"
 volumes:

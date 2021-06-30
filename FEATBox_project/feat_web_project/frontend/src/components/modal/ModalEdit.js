@@ -29,11 +29,11 @@ export default class CustomModal extends Component {
         <Modal.Body> 
           <Form>
             <Form.Group>
-              <Form.Label>HOST PC NAME</Form.Label>
+              <Form.Label>USER NAME</Form.Label>
               <Form.Control 
                 id="host_user_id"
                 name="host_user"
-                placeholder="Enter Host pc name" 
+                placeholder="Enter user name" 
                 value={this.state.activeItem.host_user}
                 onChange={this.onChange}/>
             </Form.Group>
@@ -49,7 +49,7 @@ export default class CustomModal extends Component {
                   onChange={this.onChange}/>
             </Form.Group>
 
-
+            
             <Form.Group>
               <Form.Label>PASSWORD</Form.Label>
               <Form.Control 
@@ -58,6 +58,17 @@ export default class CustomModal extends Component {
                   name="host_password"
                   placeholder="Enter password" 
                   value={this.state.activeItem.host_password}
+                  onChange={this.onChange}/>
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>PASSWORD</Form.Label>
+              <Form.Control 
+                  type="text"  
+                  id="host_script_location_id"
+                  name="host_script_location"
+                  placeholder="Enter host script location" 
+                  value={this.state.activeItem.host_script_location}
                   onChange={this.onChange}/>
             </Form.Group>
           </Form>

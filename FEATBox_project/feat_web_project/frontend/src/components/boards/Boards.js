@@ -45,7 +45,8 @@ export class Boards extends Component {
         host_user: "",
         host_ip_address: "",
         password: "",
-        user_id: ""
+        user_id: "",
+        host_script_location: ""
       },
       modal_1: false,
     }
@@ -67,8 +68,8 @@ export class Boards extends Component {
   };
   
   loadNewData = () => {
-    const { current_boardFarm } = this.props.boardFarms
-    this.props.getBoards(current_boardFarm.farm_id)
+    const { current_boardFarm } = this.props.boardFarms;
+    this.props.getBoards(current_boardFarm.farm_id);
     this.getLogs()
   }
 
@@ -113,7 +114,7 @@ export class Boards extends Component {
       }
     }
 
-    item_2 = { host_user: current_boardFarm.host_user, host_ip_address: current_boardFarm.host_ip_address, host_password: current_boardFarm.host_password, board_id: itemBoard.board_id, board_i2c_address: itemBoard.board_i2c_address , action: action }
+    item_2 = { host_user: current_boardFarm.host_user, host_ip_address: current_boardFarm.host_ip_address, host_password: current_boardFarm.host_password, board_id: itemBoard.board_id, board_i2c_address: itemBoard.board_i2c_address , action: action , host_script_location: host_script_location}
     this.props.addBoard_Log(item_2);
   };
 
@@ -130,7 +131,7 @@ export class Boards extends Component {
   editBoardFarm = () => {   
     const { user } = this.props.auth;
     const { current_boardFarm } = this.props.boardFarms;
-    const item = { host_user: current_boardFarm.host_user, host_ip_address: current_boardFarm.host_ip_address, host_password: current_boardFarm.host_password, user_id: user.id, status: "Unavailable" }
+    const item = { host_user: current_boardFarm.host_user, host_ip_address: current_boardFarm.host_ip_address, host_password: current_boardFarm.host_password, user_id: user.id, status: "Unavailable" , host_script_location: host_script_location}
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
 

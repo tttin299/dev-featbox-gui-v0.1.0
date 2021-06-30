@@ -29,7 +29,7 @@ export default class CustomModal extends Component {
         <Modal.Body> 
           <Form>
             <Form.Group as={Row} >
-              <Form.Label column sm="4">HOST PC NAME</Form.Label>
+              <Form.Label column sm="4">USER NAME</Form.Label>
               <Col sm="8">
                 <Form.Control plaintext readOnly defaultValue={this.state.activeItem.host_user} />
               </Col>

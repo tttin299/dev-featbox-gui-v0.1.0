@@ -6,7 +6,7 @@ from rest_framework.response import Response
 class BoardFarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = BoardFarm
-        fields = ('farm_id', 'user_id', 'created_date', 'status', 'host_ip_address', 'host_user','host_password')
+        fields = ('farm_id', 'user_id', 'created_date', 'status', 'host_ip_address', 'host_user', 'host_password', 'host_script_location')
 
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:

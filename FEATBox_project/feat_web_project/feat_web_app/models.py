@@ -13,11 +13,12 @@ class BoardFarm(models.Model):
     host_ip_address = models.TextField()
     host_user = models.TextField()
     host_password = models.TextField()
+    host_script_location = models.TextField(default='')
     class Meta:
             db_table = "boardfarm"
 
     def __str__(self):
-        return " %s %s %s %s %s " % (self.farm_id, self.created_date, self.status, self.host_user, self.host_ip_address)
+        return " %s %s %s %s %s %s" % (self.farm_id, self.created_date, self.status, self.host_user, self.host_ip_address, self.host_script_location)
 
 
 

@@ -21,7 +21,8 @@ export class BoardFarms extends Component {
         host_user: "",
         host_ip_address: "",
         host_password: "",
-        user_id: ""
+        user_id: "",
+        host_script_location: ""
       },
     };
   }
@@ -60,7 +61,8 @@ export class BoardFarms extends Component {
       host_user: "",
       host_ip_address: "",
       host_password: "",
-      user_id:""
+      user_id:"",
+      host_script_location: ""
     });
 
     this.setShow();
@@ -87,7 +89,7 @@ export class BoardFarms extends Component {
 
   createItem = () => {
     const { user } = this.props.auth;
-    const item = { host_user: "", host_ip_address: "", host_password: "", user_id: user.id }
+    const item = { host_user: "", host_ip_address: "", host_password: "", user_id: user.id, host_script_location: "" }
     this.setState({ activeItem: item, modal: !this.state.modal })
   };
 

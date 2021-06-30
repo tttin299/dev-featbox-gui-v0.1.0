@@ -18,42 +18,42 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = BoardFarmSerializer
 
-    def push_cmd_ssh(self, command, host_user, host_ip_address, host_password):
+    def push_cmd_ssh(self, command, host_user, host_ip_address, host_password, host_script_location):
         hostname = socket.gethostname()
         local_ip = socket.gethostbyname(hostname)
-        # data = { 
-        #         "user": host_user,
-        #         "password": host_password,
-        #         "host": host_ip_address,
-        #         "command": '''rm -rf -- feat_database.json ; echo '{ "database": "db_featweb", "host": "10.222.244.189", "port": "3306", "username": "root","password": "1234"}' > feat_database.json'''
-        #         }
+        data = { 
+                "user": host_user,
+                "password": host_password,
+                "host": host_ip_address,
+                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""db_featweb"\\", \\""' + local_ip + '"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > feat_database.json'
+                }
         
-        # command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
+        command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}'
         # return_code = os.system(command_ssh.format(**data))
-        
-        command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
+
+        # command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
         # command_no_ssh = 'echo { "database": "db_featweb", "host": "' + local_ip + '", "port": "3306", "username": "root","password": "1234"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
  
-        return_code = os.system(command_no_ssh_linux)
+        return_code = os.system(command_ssh.format(**data))
         if return_code == 0:
             data = { 
                 "user": host_user,
                 "password": host_password,
                 "host": host_ip_address,
-                "command": "cd host_script_stub; ./host_ctrl.py {0}".format(command),
+                "command": "cd " + host_script_location + "; ./host_ctrl.py {0}".format(command),
                 }
-            # command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
+            command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
             # return_code = os.system(command_ssh.format(**data))
 
-            command_no_ssh = 'python host_script_stub_'+ host_user +'@'+host_ip_address+'/host_ctrl.py ' + command 
-            return_code = os.system(command_no_ssh)
+            # command_no_ssh = 'py ../host_script_stub_'+ host_user +'@'+host_ip_address+'/host_ctrl.py ' + command 
+            return_code = os.system(command_ssh.format(**data))
             if return_code != 0:
                 return (return_code)
             return 0
             
     def get_queryset(self):
         for obj in BoardFarm.objects.all():
-            return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password)
+            return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password, obj.host_script_location)
         return BoardFarm.objects.all();
 
     def create(self, request):
@@ -61,7 +61,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
         print(serializer)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"]) 
+        return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data[""], request.data["host_script_location"]) 
         return Response()
         
     def perform_create(self, serializer):
@@ -92,25 +92,25 @@ class Board_LogViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = Board_LogSerializer
 
-    def push_cmd_ssh(self, command, host_user, host_ip_address, host_password, board_i2c_address):
+    def push_cmd_ssh(self, command, host_user, host_ip_address, host_password, board_i2c_address, host_script_location):
         data = { 
             "user": host_user,
             "host": host_ip_address,
             "password": host_password,
             "board_i2c_address": board_i2c_address,
             "action": command,
-            "command": "cd host_script_stub; ./host_ctrl.py {0} {1}".format(board_i2c_address, command),
+            "command": "cd " + host_script_location + "; ./host_ctrl.py {0} {1}".format(board_i2c_address, command),
             }
 
-        # command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
+        command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
         # return_code = os.system(command_ssh.format(**data))
 
-        command_no_ssh = 'python host_script_stub_{user}@{host}/host_ctrl.py {board_i2c_address} {action}'
-        return_code = os.system(command_no_ssh.format(**data))
+        # command_no_ssh = 'py ../host_script_stub_{user}@{host}/host_ctrl.py {board_i2c_address} {action}'
+        return_code = os.system(command_ssh.format(**data))
         return (return_code)
 
     def create(self, request):           
-        return_code = self.push_cmd_ssh(request.data["action"], request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data["board_i2c_address"])
+        return_code = self.push_cmd_ssh(request.data["action"], request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data["board_i2c_address"], request.data["host_script_location"])
         if return_code == 0:
             return Response()
         else:

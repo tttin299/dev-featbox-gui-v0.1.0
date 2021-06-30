@@ -12,13 +12,14 @@ services:
        MYSQL_PASSWORD: '1234'
        MYSQL_ROOT_PASSWORD: '1234'
     volumes:
-      - .dbdata:/var/lib/mysql
+      - data-volume:/var/lib/mysql
   web:
     build:
         context: .
         dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - data-volume:/app
     ports:
       - "8000:8000"
-      
+volumes:
+  data-volume:

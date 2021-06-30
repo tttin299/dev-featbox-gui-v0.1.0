@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch --entry ./feat_web_project/frontend/src/index.js --output-path ./feat_web_project/frontend/static/frontend",
-    "build": "webpack --mode production --watch --entry ./feat_web_project/frontend/src/index.js --output-path ./feat_web_project/frontend/static/frontend"
+    "dev": "webpack --mode development --entry ./feat_web_project/frontend/src/index.js --output-path ./feat_web_project/frontend/static/frontend",
+    "build": "webpack --mode production --entry ./feat_web_project/frontend/src/index.js --output-path ./feat_web_project/frontend/static/frontend"
   },
   "keywords": [],
   "author": "",

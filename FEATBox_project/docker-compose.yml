@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 
 services:
   db:
@@ -12,14 +12,23 @@ services:
        MYSQL_PASSWORD: '1234'
        MYSQL_ROOT_PASSWORD: '1234'
     volumes:
-      - data-volume:/var/lib/mysql
+      - database:/var/lib/mysql
   web:
+    image: featweb:0.0.1
     build:
         context: .
         dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      DJANGO_SUPERUSER_USERNAME: 'root'
+      DJANGO_SUPERUSER_EMAIL: 'feat-web@renesas.com'
+      DJANGO_SUPERUSER_PASSWORD: '1234'
     volumes:
-      - data-volume:/var/lib/app
+      - app:/var/lib/app
     ports:
       - "8000:8000"
 volumes:
-  data-volume:
+  database:
+  app:
+

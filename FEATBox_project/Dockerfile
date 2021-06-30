@@ -12,3 +12,4 @@ COPY . /app
 RUN npm run dev
 
 CMD python feat_web_project/manage.py runserver 0.0.0.0:8000
+

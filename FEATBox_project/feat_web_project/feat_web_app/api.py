@@ -19,13 +19,25 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
     serializer_class = BoardFarmSerializer
 
     def push_cmd_ssh(self, command, host_user, host_ip_address, host_password, host_script_location):
-        hostname = socket.gethostname()
-        local_ip = socket.gethostbyname(hostname)
+        # hostname = socket.gethostname()
+        # local_ip = socket.gethostbyname(hostname)
+
+        feat_database = os.path.dirname(os.path.realpath(__file__)) + "/config_database.json"
+        with open(feat_database, "r") as json_file:
+            database = json.load(json_file)
+
+        # mydb = mysql.connector.connect(
+        db=database["database"]
+        host=database["host"]
+        port= database["port"]
+        user=database["username"]
+        password=database["password"]
+
         data = { 
                 "user": host_user,
                 "password": host_password,
                 "host": host_ip_address,
-                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""db_featweb"\\", \\""' + local_ip + '"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > feat_database.json'
+                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""' + db + '"\\", \\""host"\\": \\""' + host + '"\\", \\""port"\\": \\""' + port + '"\\", \\""username"\\": \\""' + user + '"\\",\\""password"\\": \\""' + password + '"\\"} > feat_database.json'
                 }
         
         command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}'

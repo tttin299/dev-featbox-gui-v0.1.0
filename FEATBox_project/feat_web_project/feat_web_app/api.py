@@ -41,7 +41,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 }
         
         command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}'
-        # return_code = os.system(command_ssh.format(**data))
+        print(command_ssh)
 
         # command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
         # command_no_ssh = 'echo { "database": "db_featweb", "host": "' + local_ip + '", "port": "3306", "username": "root","password": "1234"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
@@ -115,7 +115,7 @@ class Board_LogViewSet(viewsets.ModelViewSet):
             }
 
         command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
-        # return_code = os.system(command_ssh.format(**data))
+        print(command_ssh)
 
         # command_no_ssh = 'py ../host_script_stub_{user}@{host}/host_ctrl.py {board_i2c_address} {action}'
         return_code = os.system(command_ssh.format(**data))

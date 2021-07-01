@@ -73,7 +73,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
         print(serializer)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data[""], request.data["host_script_location"]) 
+        return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data["host_script_location"]) 
         return Response()
         
     def perform_create(self, serializer):

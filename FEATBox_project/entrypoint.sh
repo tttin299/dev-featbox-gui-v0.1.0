@@ -1,3 +1,5 @@
+apt-get update
+apt-get install sshpass
 cd feat_web_project
 python manage.py makemigrations
 python manage.py migrate

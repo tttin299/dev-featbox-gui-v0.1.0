@@ -66,7 +66,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         for obj in BoardFarm.objects.all():
             return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password, obj.host_script_location)
-        return BoardFarm.objects.all();
+        return BoardFarm.objects.all()
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)

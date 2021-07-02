@@ -131,7 +131,7 @@ export class Boards extends Component {
   editBoardFarm = () => {   
     const { user } = this.props.auth;
     const { current_boardFarm } = this.props.boardFarms;
-    const item = { host_user: current_boardFarm.host_user, host_ip_address: current_boardFarm.host_ip_address, host_password: current_boardFarm.host_password, user_id: user.id, status: "Unavailable" , host_script_location: host_script_location}
+    const item = { host_user: current_boardFarm.host_user, host_ip_address: current_boardFarm.host_ip_address, host_password: current_boardFarm.host_password, user_id: user.id, status: "Unavailable" , host_script_location: current_boardFarm.host_script_location}
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
 

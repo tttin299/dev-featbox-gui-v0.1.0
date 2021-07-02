@@ -217,7 +217,7 @@ def send_database(func, address=None, command=None, cpuOrBoardName=None):
                     print("Sending result to database server")
                 else:
                     date = str(datetime.date.today())     
-                    mycursor.execute("INSERT INTO boardfarm (host_ip_address, host_user, host_password, status, created_date) VALUES ('"+host+"', '"+user+"', '"+password+"', 'Available', '"+date+"')")
+                    mycursor.execute("INSERT INTO boardfarm (host_ip_address, host_user, host_password, status, created_date, host_script_location) VALUES ('"+host+"', '"+user+"', '"+password+"', 'Available', '"+date+"', '"+ os.getcwd() +"')")
 
                     mycursor.execute("SELECT * FROM boardfarm WHERE host_ip_address = '" + host + "' and host_user = '"+ user +"' and host_password = '" + password + "'")
                     farm_id = mycursor.fetchone()[0] 

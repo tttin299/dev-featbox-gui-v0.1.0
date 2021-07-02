@@ -24,6 +24,7 @@ services:
       DJANGO_SUPERUSER_USERNAME: 'root'
       DJANGO_SUPERUSER_EMAIL: 'feat-web@renesas.com'
       DJANGO_SUPERUSER_PASSWORD: '1234'
+      HOST_IP: '172.168.1.1'
     volumes:
       - app:/var/lib/app
     ports:

@@ -62,6 +62,8 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
             if return_code != 0:
                 return (return_code)
             return 0
+        else:
+            print("Failed to send json file")
             
     def get_queryset(self):
         for obj in BoardFarm.objects.all():

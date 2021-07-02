@@ -110,7 +110,7 @@ export class BoardFarms extends Component {
         {boardFarm.status === "Available" ? (       
             <ListGroup.Item className="mt-2" action variant="success" href={'#boardfarms'}>        
               <Col>
-              {"BoaboardFarm ID: " + boardFarm.farm_id}
+              {"BoadFarm ID: " + boardFarm.farm_id}
               </Col>
 
               <Col>
@@ -120,7 +120,7 @@ export class BoardFarms extends Component {
         ) : (       
           <ListGroup.Item className="mt-2 box2" action variant="dark" href={'#boardfarms'}>        
             <Col>
-            {"BoaboardFarm ID: " + boardFarm.farm_id}
+            {"BoadFarm ID: " + boardFarm.farm_id}
             </Col>
 
             <Col>

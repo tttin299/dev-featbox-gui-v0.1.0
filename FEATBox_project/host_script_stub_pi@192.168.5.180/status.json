@@ -1,0 +1,17 @@
+{
+    "0x7e": {
+        "Boot": "off",
+        "CPU": "cr7",
+        "Name": "starterkit_m3",
+        "Power": "off",
+        "Mode": "uboot"
+        },
+
+    "0x7f": {
+        "Boot": "on",
+        "CPU": "ca53",
+        "Name": "salvator_h3",
+        "Power": "on",
+        "Mode": "monitor"
+        }
+}

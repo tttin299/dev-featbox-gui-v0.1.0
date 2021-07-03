@@ -18,7 +18,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
     ]
     serializer_class = BoardFarmSerializer
 
-    def push_cmd_ssh(self, command, host_user, host_ip_address, host_password, host_script_location):
+    def push_cmd_ssh(self, command, host_user, host_ip_address, host_password, host_script_location, farm_id):
         # hostname = socket.gethostname()
         # local_ip = socket.gethostbyname(hostname)
 
@@ -26,7 +26,6 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
         with open(feat_database, "r") as json_file:
             database = json.load(json_file)
 
-        # mydb = mysql.connector.connect(
         db=database["database"]
         host=database["host"]
         port= database["port"]
@@ -37,10 +36,10 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 "user": host_user,
                 "password": host_password,
                 "host": host_ip_address,
-                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""' + db + '"\\", \\""host"\\": \\""' + host + '"\\", \\""port"\\": \\""' + port + '"\\", \\""username"\\": \\""' + user + '"\\",\\""password"\\": \\""' + password + '"\\"} > feat_database.json'
+                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""' + db + '"\\", \\""host"\\": \\""' + host + '"\\", \\""port"\\": \\""' + port + '"\\", \\""username"\\": \\""' + user + '"\\", \\""password"\\": \\""' + password + '"\\", \\"" farm_id "\\": \\""' + str(farm_id) + '"\\"} > feat_database.json'
                 }
         
-        command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}'
+        command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\''
         print(command_ssh.format(**data))
 
         # command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
@@ -54,7 +53,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 "host": host_ip_address,
                 "command": "cd " + host_script_location + "; ./host_ctrl.py {0}".format(command),
                 }
-            command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
+            command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\'"
             # return_code = os.system(command_ssh.format(**data))
 
             # command_no_ssh = 'py ../host_script_stub_'+ host_user +'@'+host_ip_address+'/host_ctrl.py ' + command 
@@ -62,20 +61,22 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
             if return_code != 0:
                 return (return_code)
             return 0
-        else:
-            print("Failed to send json file")
             
     def get_queryset(self):
         for obj in BoardFarm.objects.all():
-            return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password, obj.host_script_location)
-        return BoardFarm.objects.all()
+            return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password, obj.host_script_location, obj.farm_id)
+        return BoardFarm.objects.all();
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         print(serializer)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data["host_script_location"]) 
+
+        queryset = BoardFarm.objects.all()[-1]
+        farm_id = queryset.farm_id
+
+        return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data["host_script_location"], farm_id) 
         return Response()
         
     def perform_create(self, serializer):
@@ -116,7 +117,7 @@ class Board_LogViewSet(viewsets.ModelViewSet):
             "command": "cd " + host_script_location + "; ./host_ctrl.py {0} {1}".format(board_i2c_address, command),
             }
 
-        command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} {command}"
+        command_ssh = "sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\'"
         print(command_ssh.format(**data))
 
         # command_no_ssh = 'py ../host_script_stub_{user}@{host}/host_ctrl.py {board_i2c_address} {action}'

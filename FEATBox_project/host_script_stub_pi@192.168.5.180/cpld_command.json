@@ -1,0 +1,155 @@
+{
+	"V3U": {
+		"productID": "0x6010",
+		"reset": {
+			"mode": "-w",
+			"address": "0x0024",
+			"value": "0x01"
+		},
+		"boot": {
+			"mode": "-w",
+			"address": "0x0008",
+			"override": "0x0001000000000000",
+			"bitmask": "0x1E",
+			"type": {
+				"uboot": "0x08",
+				"monitor": "0x1E"
+			}
+		},
+		"cpu": {
+			"mode": "-w",
+			"address": "0x0008",
+			"bitmask": "0xC0",
+			"type": {
+				"ca76": "0x40",
+				"icumxa": "0x80",
+				"cr52": "0xC0"
+			}
+		},
+		"status": {
+			"mode": "-r"
+		}
+	},
+	"M3SK": {
+		"productID": "0x6001",
+		"reset": {
+			"mode": "-w",
+			"address": "0x80",
+			"value": "0x01"
+		},
+		"boot": {
+			"mode": "-w",
+			"address": "0x00",
+			"override": "0x80000000",
+			"bitmask": "0x1E",
+			"type": {
+				"uboot": "0x06",
+				"monitor": "0x1E"
+			}
+		},
+		"cpu": {
+			"mode": "-w",
+			"address": "0x00",
+			"bitmask": "0xC0",
+			"type": {
+				"ca57": "0x00",
+				"ca53": "0x40",
+				"cr7": "0xC0"
+			}
+		},
+		"status": {
+			"mode": "-r"
+		}
+	},
+	"H3SK": {
+		"productID": "0x6001",
+		"reset": {
+			"mode": "-w",
+			"address": "0x80",
+			"value": "0x01"
+		},
+		"boot": {
+			"mode": "-w",
+			"address": "0x00",
+			"override": "0x80000000",
+			"bitmask": "0x1E",
+			"type": {
+				"uboot": "0x06",
+				"monitor": "0x1E"
+			}
+		},
+		"cpu": {
+			"mode": "-w",
+			"address": "0x00",
+			"bitmask": "0xC0",
+			"type": {
+				"ca57": "0x00",
+				"ca53": "0x40",
+				"cr7": "0xC0"
+			}
+		},
+		"status": {
+			"mode": "-r"
+		}
+	},
+	"V3HSK": {
+		"productID": "0x6010",
+		"reset": {
+			"mode": "-w",
+			"address": "0x0024",
+			"value": "0xF1"
+		},
+		"boot": {
+			"mode": "-w",
+			"address": "0x0008",
+			"override": "0x008000000",
+			"bitmask": "0x1E",
+			"type": {
+				"uboot": "0x08",
+				"monitor": "0x1E"
+			}
+		},
+		"cpu": {
+			"mode": "-w",
+			"address": "0x0008",
+			"bitmask": "0xC0",
+			"type": {
+				"icumxa": "0x80",
+				"cr7": "0xC0"
+			}
+		},
+		"status": {
+			"mode": "-r"
+		}
+	},
+	"V3MSK": {
+		"productID": "0x6001",
+		"reset": {
+			"mode": "-w",
+			"address": "0x00A",
+			"value": "0x0001"
+		},
+		"boot": {
+			"mode": "-w",
+			"address": "0x004",
+			"override": "0x80000000",
+			"bitmask": "0x1E",
+			"type": {
+				"uboot": "0x08",
+				"monitor": "0x1E"
+			}
+		},
+		"cpu": {
+			"mode": "-w",
+			"address": "0x004",
+			"bitmask": "0x80",
+			"type": {
+				"ca53": "0x00",
+				"cr7": "0x80"
+			}
+		},
+		"status": {
+			"mode": "-r"
+		}
+	}
+}

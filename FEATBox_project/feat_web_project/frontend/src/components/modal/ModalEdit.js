@@ -30,8 +30,7 @@ export default class CustomModal extends Component {
           <Form>
             <Form.Group>
               <Form.Label>USER NAME</Form.Label>
-              <Form.Control
-                required 
+              <Form.Control 
                 id="host_user_id"
                 name="host_user"
                 placeholder="Enter user name" 
@@ -41,8 +40,7 @@ export default class CustomModal extends Component {
 
             <Form.Group>
               <Form.Label>IP ADDRESS</Form.Label>
-              <Form.Control
-                  required
+              <Form.Control 
                   type="text" 
                   id="host_ip_address_id"
                   name="host_ip_address"
@@ -53,9 +51,8 @@ export default class CustomModal extends Component {
 
             
             <Form.Group>
-              <Form.Label>HOST PASSWORD</Form.Label>
-              <Form.Control
-                  required
+              <Form.Label>PASSWORD</Form.Label>
+              <Form.Control 
                   type="password"  
                   id="host_ip_pass_id"
                   name="host_password"
@@ -67,7 +64,6 @@ export default class CustomModal extends Component {
             <Form.Group>
               <Form.Label>HOST SCRIPT LOCATION</Form.Label>
               <Form.Control 
-                  required
                   type="text"  
                   id="host_script_location_id"
                   name="host_script_location"

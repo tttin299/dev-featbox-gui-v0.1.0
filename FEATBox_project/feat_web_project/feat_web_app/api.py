@@ -59,13 +59,19 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
             # command_no_ssh = 'py ../host_script_stub_'+ host_user +'@'+host_ip_address+'/host_ctrl.py ' + command 
             return_code = os.system(command_ssh.format(**data))
             if return_code != 0:
+                print("SSH init failed")
                 return (return_code)
-            return 0
             
+            print("SSH init was successful")
+            return 0
+        else:
+            print("SSH send json file failed")
+            return (return_code)
+
     def get_queryset(self):
         for obj in BoardFarm.objects.all():
             return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password, obj.host_script_location, obj.farm_id)
-        return BoardFarm.objects.all();
+        return BoardFarm.objects.all()
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)

@@ -40,8 +40,6 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 }
         
         command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\''
-        print(command + " board_farm: " + str(farm_id))
-
         # command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
         # command_no_ssh = 'echo { "database": "db_featweb", "host": "' + local_ip + '", "port": "3306", "username": "root","password": "1234"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
  
@@ -58,13 +56,12 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
 
             # command_no_ssh = 'py ../host_script_stub_'+ host_user +'@'+host_ip_address+'/host_ctrl.py ' + command 
             return_code = os.system(command_ssh.format(**data))
-            if return_code != 0:
-                rs = "SSH " + command + " failed"
-                print(command + " board_farm: " + str(farm_id) + " failed")
+            if return_code == 0:
+                rs = "SSH " + command + " was successful"
                 return rs
-            print(command + " board_farm: " + str(farm_id))
-            rs = "SSH " + command + "was successful"
-            return rs
+            else:
+                rs = "SSH " + command + " failed"
+                return rs
         else:
             rs = "SSH send json file failed"
             return rs
@@ -72,6 +69,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         for obj in BoardFarm.objects.all():
             return_code = self.push_cmd_ssh("status", obj.host_user, obj.host_ip_address, obj.host_password, obj.host_script_location, obj.farm_id)
+            print(return_code)
         return BoardFarm.objects.all()
 
     def create(self, request):
@@ -84,6 +82,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
         farm_id = queryset.farm_id
 
         return_code = self.push_cmd_ssh("init", request.data["host_user"], request.data["host_ip_address"], request.data["host_password"], request.data["host_script_location"], farm_id) 
+        print(return_code)
         return Response()
         
     def perform_create(self, serializer):

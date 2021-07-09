@@ -40,7 +40,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 }
         
         command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\''
-        print(command_ssh.format(**data))
+        # print(command_ssh.format(**data))
 
         # command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
         # command_no_ssh = 'echo { "database": "db_featweb", "host": "' + local_ip + '", "port": "3306", "username": "root","password": "1234"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
@@ -59,14 +59,14 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
             # command_no_ssh = 'py ../host_script_stub_'+ host_user +'@'+host_ip_address+'/host_ctrl.py ' + command 
             return_code = os.system(command_ssh.format(**data))
             if return_code != 0:
-                print("SSH init failed")
-                return (return_code)
+                rs = "SSH " + command + " failed"
+                return rs
             
-            print("SSH " + command + "was successful")
-            return 0
+            rs = "SSH " + command + "was successful"
+            return rs
         else:
-            print("SSH send json file failed")
-            return (return_code)
+            rs = "SSH send json file failed"
+            return rs
 
     def get_queryset(self):
         for obj in BoardFarm.objects.all():

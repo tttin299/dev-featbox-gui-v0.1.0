@@ -40,7 +40,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 }
         
         command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\''
-        print(command + "board_farm: " + str(farm_id))
+        print(command + " board_farm: " + str(farm_id))
 
         # command_no_ssh_linux = 'echo { \\""database"\\": \\""db_featweb"\\", \\""host"\\": \\""db"\\", \\""port"\\": \\""3306"\\", \\""username"\\": \\""root"\\",\\""password"\\": \\""1234"\\"} > host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
         # command_no_ssh = 'echo { "database": "db_featweb", "host": "' + local_ip + '", "port": "3306", "username": "root","password": "1234"} > ../host_script_stub_'+ host_user +'@'+ host_ip_address + '/feat_database.json'
@@ -60,8 +60,9 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
             return_code = os.system(command_ssh.format(**data))
             if return_code != 0:
                 rs = "SSH " + command + " failed"
+                print(command + " board_farm: " + str(farm_id) + " failed")
                 return rs
-            
+            print(command + " board_farm: " + str(farm_id))
             rs = "SSH " + command + "was successful"
             return rs
         else:

@@ -36,7 +36,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 "user": host_user,
                 "password": host_password,
                 "host": host_ip_address,
-                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""' + db + '"\\", \\""host"\\": \\""' + host + '"\\", \\""port"\\": \\""' + port + '"\\", \\""username"\\": \\""' + user + '"\\", \\""password"\\": \\""' + password + '"\\", \\"" farm_id "\\": \\""' + str(farm_id) + '"\\"} > feat_database.json'
+                "command": 'cd ' + host_script_location + '; rm -rf -- feat_database.json ; echo { \\""database"\\": \\""' + db + '"\\", \\""host"\\": \\""' + host + '"\\", \\""port"\\": \\""' + port + '"\\", \\""username"\\": \\""' + user + '"\\", \\""password"\\": \\""' + password + '"\\", \\""farm_id"\\": \\""' + str(farm_id) + '"\\"} > feat_database.json'
                 }
         
         command_ssh = 'sshpass -p {password} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@{host} \'{command}\''
@@ -62,7 +62,7 @@ class BoardFarmViewSet(viewsets.ModelViewSet):
                 print("SSH init failed")
                 return (return_code)
             
-            print("SSH init was successful")
+            print("SSH " + command + "was successful")
             return 0
         else:
             print("SSH send json file failed")

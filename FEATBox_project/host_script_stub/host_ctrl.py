@@ -209,8 +209,6 @@ def send_database(func, address=None, command=None, cpuOrBoardName=None):
                 if len(mycursor.fetchall()) > 0:
                     mycursor.execute("UPDATE boardfarm SET status = 'Available' WHERE farm_id = " + farm_id)
                         
-                    # mycursor.execute("SELECT * FROM boardfarm WHERE farm_id = " + farm_id)
-                    # farm_id = mycursor.fetchone()[0] 
                     mycursor.execute("INSERT INTO board (farm_id, board_i2c_address, board_name, power_status, switch_status, mode_status) VALUES ("+farm_id+", '"+address+"', '"+boardName+"', " + str(power_status) + ", " + str(switch_status) + ", " + str(mode_status) + ")")
                     mydb.commit()
                     print("Sending result to database server")
@@ -230,13 +228,17 @@ def send_database(func, address=None, command=None, cpuOrBoardName=None):
         def inner2(): 
             boardName = cpuOrBoardName
             ctrl = func(address, command, boardName)
-            # host = controller.configData["connectionConfigure"]["host"]
-            # user = controller.configData["connectionConfigure"]["user"]
-            # password = controller.configData["connectionConfigure"]["connect_kwargs"]["password"]
+    
             if ctrl == 0:
                 mycursor.execute("SELECT * FROM boardfarm WHERE farm_id = " + farm_id)
                 if len(mycursor.fetchall()) > 0:
                     mycursor.execute("UPDATE boardfarm SET status = 'Available' WHERE farm_id = " + farm_id)  
+                    mydb.commit()
+                    print("Sending result to database server")
+            else:
+                mycursor.execute("SELECT * FROM boardfarm WHERE farm_id = " + farm_id)
+                if len(mycursor.fetchall()) > 0:
+                    mycursor.execute("UPDATE boardfarm SET status = 'Unavailable' WHERE farm_id = " + farm_id)  
                     mydb.commit()
                     print("Sending result to database server")
             return ctrl
@@ -264,14 +266,31 @@ def send_database(func, address=None, command=None, cpuOrBoardName=None):
 
             boardName = cpuOrBoardName
             ctrl = func(address, command, boardName)
-            # host = controller.configData["connectionConfigure"]["host"]
-            # user = controller.configData["connectionConfigure"]["user"]
-            # password = controller.configData["connectionConfigure"]["connect_kwargs"]["password"]
+            
             if ctrl == 0:   
                 mycursor.execute("SELECT * FROM board WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
-                # farm_id = mycursor.fetchone()[0] 
                 if len(mycursor.fetchall()) > 0:
                     mycursor.execute("UPDATE board SET power_status = " + str(power_status) + ", switch_status = " + str(switch_status) + ", mode_status = " + str(mode_status) + " WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
+                    
+                    command_up = command.upper()
+                    mycursor.execute("SELECT board_id FROM board WHERE board_i2c_address = '" + address + "' AND  farm_id = " + farm_id)
+                    board_id = str(mycursor.fetchone()[0])
+                    
+                    date = str(datetime.date.today())
+                    time = str(datetime.datetime.now().strftime("%H:%M:%S"))
+                    mycursor.execute("INSERT INTO board_log (board_id, date, time, action, status) VALUES ('"+board_id+"','"+date+"','"+time+"','"+command_up+"',True)")
+                    mydb.commit()
+                    print("Sending result to database server")
+            else:
+                mycursor.execute("SELECT * FROM board WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
+                if len(mycursor.fetchall()) > 0:
+                    command_up = command.upper()
+                    mycursor.execute("SELECT board_id FROM board WHERE board_i2c_address = '" + address + "' AND  farm_id = " + farm_id)
+                    board_id = str(mycursor.fetchone()[0])
+                    
+                    date = str(datetime.date.today())
+                    time = str(datetime.datetime.now().strftime("%H:%M:%S"))
+                    mycursor.execute("INSERT INTO board_log (board_id, date, time, action, status) VALUES ('"+board_id+"','"+date+"','"+time+"','"+command_up+"',False)")
                     mydb.commit()
                     print("Sending result to database server")
             return ctrl   
@@ -300,24 +319,36 @@ def send_database(func, address=None, command=None, cpuOrBoardName=None):
                 valCol = False
 
         def inner4():
-            # host = controller.configData["connectionConfigure"]["host"]
             cpu = cpuOrBoardName
             ctrl = func(address, command, cpu) 
             if ctrl == 0:
-                command_up = command.upper()
-                # mycursor.execute("SELECT farm_id FROM boardfarm WHERE host_ip_address = '" + host + "'")
-                # farm_id = mycursor.fetchone()[0]
-
-                mycursor.execute("UPDATE board SET " + col + " = " + str(valCol) + " WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
-               
-                mycursor.execute("SELECT board_id FROM board WHERE board_i2c_address = '" + address + "' AND  farm_id = " + farm_id)
-                board_id = str(mycursor.fetchone()[0])
+                mycursor.execute("SELECT * FROM board WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
+                if len(mycursor.fetchall()) > 0:
+                    command_up = command.upper()
+    
+                    mycursor.execute("UPDATE board SET " + col + " = " + str(valCol) + " WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
                 
-                date = str(datetime.date.today())
-                time = str(datetime.datetime.now().strftime("%H:%M:%S"))
-                mycursor.execute("INSERT INTO board_log (board_id, date, time, action, status) VALUES ('"+board_id+"','"+date+"','"+time+"','"+command_up+"',True)")
-                mydb.commit()
-                print("Sending result to database server")
+                    mycursor.execute("SELECT board_id FROM board WHERE board_i2c_address = '" + address + "' AND  farm_id = " + farm_id)
+                    board_id = str(mycursor.fetchone()[0])
+                    
+                    date = str(datetime.date.today())
+                    time = str(datetime.datetime.now().strftime("%H:%M:%S"))
+                    mycursor.execute("INSERT INTO board_log (board_id, date, time, action, status) VALUES ('"+board_id+"','"+date+"','"+time+"','"+command_up+"',True)")
+                    mydb.commit()
+                    print("Sending result to database server")
+            else:
+                mycursor.execute("SELECT * FROM board WHERE board_i2c_address = '" + address + "' AND farm_id = " + farm_id)
+                if len(mycursor.fetchall()) > 0:
+                    command_up = command.upper()
+
+                    mycursor.execute("SELECT board_id FROM board WHERE board_i2c_address = '" + address + "' AND  farm_id = " + farm_id)
+                    board_id = str(mycursor.fetchone()[0])
+                    
+                    date = str(datetime.date.today())
+                    time = str(datetime.datetime.now().strftime("%H:%M:%S"))
+                    mycursor.execute("INSERT INTO board_log (board_id, date, time, action, status) VALUES ('"+board_id+"','"+date+"','"+time+"','"+command_up+"',False)")
+                    mydb.commit()
+                    print("Sending result to database server")
             return ctrl     
         return inner4 
 
